@@ -13,9 +13,10 @@
     }
   };
 
-  const drawers = qsa("[data-ts-drawer]");
-  const openButtons = qsa("[data-ts-drawer-open]");
-  const closeTriggers = qsa("[data-ts-drawer-close]");
+  const syncScrollLock = () => {
+    const hasOpenOverlay = Boolean(qs("[data-ts-drawer]:not([hidden]), [data-ts-modal]:not([hidden])"));
+    document.documentElement.classList.toggle("ts-no-scroll", hasOpenOverlay);
+  };
 
   const setExpanded = (button, expanded) => {
     if (!button) return;
@@ -25,49 +26,45 @@
   const openDrawer = (name) => {
     const drawer = qs(`[data-ts-drawer="${name}"]`);
     if (!drawer) return;
-    drawers.forEach((d) => {
+
+    qsa("[data-ts-modal]").forEach((m) => {
+      m.hidden = true;
+    });
+
+    qsa("[data-ts-drawer]").forEach((d) => {
       if (d !== drawer) d.hidden = true;
     });
     drawer.hidden = false;
 
-    const opener = qs(`[data-ts-drawer-open="${name}"]`);
-    setExpanded(opener, true);
+    qsa("[data-ts-drawer-open]").forEach((btn) => {
+      setExpanded(btn, btn.getAttribute("data-ts-drawer-open") === name);
+    });
 
     const focusable = drawer.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
     if (focusable) focusable.focus();
-    document.documentElement.classList.add("ts-no-scroll");
+    syncScrollLock();
   };
 
   const closeDrawer = (drawer) => {
     if (!drawer) return;
     drawer.hidden = true;
-    openButtons.forEach((btn) => setExpanded(btn, false));
-    document.documentElement.classList.remove("ts-no-scroll");
+    qsa("[data-ts-drawer-open]").forEach((btn) => setExpanded(btn, false));
+    syncScrollLock();
   };
-
-  openButtons.forEach((btn) => {
-    btn.addEventListener("click", () => openDrawer(btn.getAttribute("data-ts-drawer-open")));
-  });
-
-  closeTriggers.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      const drawer = e.target.closest("[data-ts-drawer]");
-      closeDrawer(drawer);
-    });
-  });
-
-  const modals = qsa("[data-ts-modal]");
-  const modalOpenButtons = qsa("[data-ts-modal-open]");
-  const modalCloseTriggers = qsa("[data-ts-modal-close]");
 
   const openModal = (id) => {
     const modal = document.getElementById(id);
     if (!modal) return;
-    modals.forEach((m) => {
+    qsa("[data-ts-drawer]").forEach((d) => {
+      d.hidden = true;
+    });
+    qsa("[data-ts-drawer-open]").forEach((btn) => setExpanded(btn, false));
+
+    qsa("[data-ts-modal]").forEach((m) => {
       if (m !== modal) m.hidden = true;
     });
     modal.hidden = false;
-    document.documentElement.classList.add("ts-no-scroll");
+    syncScrollLock();
 
     const focusable = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
     if (focusable) focusable.focus();
@@ -76,27 +73,39 @@
   const closeModal = (modal) => {
     if (!modal) return;
     modal.hidden = true;
-    document.documentElement.classList.remove("ts-no-scroll");
+    syncScrollLock();
   };
 
-  modalOpenButtons.forEach((btn) => {
-    btn.addEventListener("click", () => openModal(btn.getAttribute("data-ts-modal-open")));
-  });
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+    if (!(target instanceof Element)) return;
 
-  modalCloseTriggers.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      const modal = e.target.closest("[data-ts-modal]");
-      closeModal(modal);
-    });
+    const drawerOpenButton = target.closest("[data-ts-drawer-open]");
+    if (drawerOpenButton) return openDrawer(drawerOpenButton.getAttribute("data-ts-drawer-open"));
+
+    const drawerCloseTrigger = target.closest("[data-ts-drawer-close]");
+    if (drawerCloseTrigger) return closeDrawer(drawerCloseTrigger.closest("[data-ts-drawer]"));
+
+    const modalOpenButton = target.closest("[data-ts-modal-open]");
+    if (modalOpenButton) return openModal(modalOpenButton.getAttribute("data-ts-modal-open"));
+
+    const modalCloseTrigger = target.closest("[data-ts-modal-close]");
+    if (modalCloseTrigger) return closeModal(modalCloseTrigger.closest("[data-ts-modal]"));
   });
 
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    const openModalEl = modals.find((m) => !m.hidden);
+    const openModalEl = qs("[data-ts-modal]:not([hidden])");
     if (openModalEl) return closeModal(openModalEl);
-    const openDrawerEl = drawers.find((d) => !d.hidden);
+    const openDrawerEl = qs("[data-ts-drawer]:not([hidden])");
     if (openDrawerEl) return closeDrawer(openDrawerEl);
   });
+
+  ["shopify:section:load", "shopify:section:unload", "shopify:section:select", "shopify:section:deselect", "shopify:block:select", "shopify:block:deselect"].forEach(
+    (eventName) => document.addEventListener(eventName, syncScrollLock),
+  );
+
+  syncScrollLock();
 
   const updateCartCount = (count) => {
     const bubble = qs("[data-ts-cart-count]");
@@ -197,7 +206,7 @@
 
       const prefsModal = document.getElementById("TsCookiePrefs");
       if (prefsModal) prefsModal.hidden = true;
-      document.documentElement.classList.remove("ts-no-scroll");
+      syncScrollLock();
 
       if (api && typeof api.setTrackingConsent === "function") {
         try {
