@@ -8,7 +8,7 @@
 
     {% render 'meta-tags' %}
 
-    {% if settings.font_google_url != blank %}
+    {% if settings.enable_google_font and settings.font_google_url != blank %}
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="{{ settings.font_google_url }}" rel="stylesheet">
@@ -27,7 +27,7 @@
         --ts-space-scale: {{ settings.spacing_density }};
         --ts-glow: {% if settings.enable_glow %}1{% else %}0{% endif %};
         --ts-button-style: {{ settings.button_style }};
-        --ts-font-family: {% if settings.font_google_family != blank %}{{ settings.font_google_family | json }}{% else %}system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"{% endif %};
+        --ts-font-family: {% if settings.enable_google_font and settings.font_google_family != blank %}{{ settings.font_google_family | json }}, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"{% else %}system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"{% endif %};
       }
     </style>
 

@@ -45,16 +45,22 @@
         "content": "Default: system font stack (veloce e leggibile). Opzionale: imposta un Google Font (URL CSS) + family per sovrascrivere."
       },
       {
+        "type": "checkbox",
+        "id": "enable_google_font",
+        "label": "Abilita Google Font",
+        "default": false
+      },
+      {
         "type": "text",
         "id": "font_google_url",
         "label": "Google Font URL (opzionale)",
-        "default": ""
+        "default": "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
       },
       {
         "type": "text",
         "id": "font_google_family",
         "label": "Google Font family (opzionale)",
-        "default": ""
+        "default": "Archivo Black"
       },
       {
         "type": "header",
@@ -147,4 +153,3 @@
     ]
   }
 ]
-
