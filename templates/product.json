@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "low_stock_threshold": 5,
+        "show_size_guide": true
+      }
+    }
+  },
+  "order": ["main"]
+}
+

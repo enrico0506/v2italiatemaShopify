@@ -1,0 +1,52 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <h1 class="ts-page-title">{{ 'templates.search.title' | t }}</h1>
+
+    <form class="ts-search" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="ts-visually-hidden" for="SearchTerm-{{ section.id }}">{{ 'templates.search.label' | t }}</label>
+      <input class="ts-input" id="SearchTerm-{{ section.id }}" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'templates.search.placeholder' | t }}">
+      <button class="ts-button" type="submit">{{ 'general.actions.search' | t }}</button>
+    </form>
+
+    {% if search.performed %}
+      {% if search.results_count == 0 %}
+        <p class="ts-empty">{{ 'templates.search.no_results' | t }}</p>
+      {% else %}
+        {% paginate search.results by 16 %}
+          <div class="ts-grid ts-grid--products">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                {% render 'product-card', product: item, show_quick_add: false %}
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if paginate.pages > 1 %}
+            <nav class="ts-pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+              {% if paginate.previous %}
+                <a class="ts-link" href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>
+              {% endif %}
+              <span class="ts-pagination__page">{{ 'general.pagination.page' | t: current: paginate.current_page, total: paginate.pages }}</span>
+              {% if paginate.next %}
+                <a class="ts-link" href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>
+              {% endif %}
+            </nav>
+          {% endif %}
+        {% endpaginate %}
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main search",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Main search"
+    }
+  ]
+}
+{% endschema %}
+

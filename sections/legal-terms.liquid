@@ -1,0 +1,43 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <h1 class="ts-page-title">{{ page.title }}</h1>
+
+    <div class="ts-empty" role="note">
+      <strong>{{ 'legal.disclaimer_title' | t }}</strong><br>
+      {{ 'legal.disclaimer_text' | t }}
+    </div>
+
+    <div class="rte" style="margin-top: 1rem;">
+      <h2>1) Oggetto</h2>
+      <p>Le presenti condizioni disciplinano la vendita di prodotti tramite questo store online.</p>
+
+      <h2>2) Prezzi e pagamenti</h2>
+      <p>I prezzi sono indicati nella valuta dello store. Pagamenti, tasse e spedizioni sono gestiti tramite le impostazioni di Shopify e i relativi provider.</p>
+
+      <h2>3) Spedizioni</h2>
+      <p>Tempi e costi di spedizione possono variare in base a destinazione e metodo selezionato. Eventuali soglie promozionali (es. spedizione gratuita) sono indicate nel carrello quando disponibili.</p>
+
+      <h2>4) Disponibilità</h2>
+      <p>La disponibilità è indicativa e può cambiare. In caso di indisponibilità dopo l’ordine, il cliente verrà contattato per una soluzione (rimborso o alternativa).</p>
+
+      <h2>5) Limitazioni drop / limited</h2>
+      <p>Alcuni articoli possono essere in quantità limitata. Una volta esauriti, potrebbero non tornare disponibili.</p>
+
+      <h2>6) Legge applicabile e foro</h2>
+      <p>Indicare la legge applicabile e il foro competente secondo la normativa del proprio paese e in base alla tipologia di cliente.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legal — Terms",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Legal — Terms"
+    }
+  ]
+}
+{% endschema %}
+

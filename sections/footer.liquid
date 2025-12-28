@@ -1,0 +1,107 @@
+<footer class="ts-footer">
+  <div class="ts-container ts-footer__grid">
+    <div class="ts-footer__col">
+      <div class="ts-footer__brand">{{ section.settings.company_name | default: shop.name }}</div>
+      {% if section.settings.vat_number != blank %}
+        <div class="ts-footer__meta">P.IVA: {{ section.settings.vat_number }}</div>
+      {% endif %}
+      {% if section.settings.company_details != blank %}
+        <div class="ts-footer__meta">{{ section.settings.company_details | newline_to_br }}</div>
+      {% endif %}
+      {% if section.settings.contact_email != blank %}
+        <div class="ts-footer__meta">
+          <a class="ts-link" href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.footer_menu != blank %}
+      <div class="ts-footer__col">
+        <div class="ts-footer__heading">{{ section.settings.footer_menu.title }}</div>
+        <ul class="ts-footer__list" role="list">
+          {% for link in section.settings.footer_menu.links %}
+            <li><a class="ts-link" href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if section.settings.policy_menu != blank %}
+      <div class="ts-footer__col">
+        <div class="ts-footer__heading">{{ section.settings.policy_menu.title }}</div>
+        <ul class="ts-footer__list" role="list">
+          {% for link in section.settings.policy_menu.links %}
+            <li><a class="ts-link" href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <div class="ts-footer__col">
+      <div class="ts-footer__heading">{{ 'sections.footer.follow' | t }}</div>
+      <ul class="ts-footer__social" role="list">
+        {% if settings.social_instagram != blank %}
+          <li><a class="ts-link" href="{{ settings.social_instagram }}" rel="noopener" target="_blank">Instagram</a></li>
+        {% endif %}
+        {% if settings.social_tiktok != blank %}
+          <li><a class="ts-link" href="{{ settings.social_tiktok }}" rel="noopener" target="_blank">TikTok</a></li>
+        {% endif %}
+        {% if settings.social_youtube != blank %}
+          <li><a class="ts-link" href="{{ settings.social_youtube }}" rel="noopener" target="_blank">YouTube</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="ts-container ts-footer__bottom">
+    <small class="ts-footer__copyright">© {{ 'now' | date: '%Y' }} {{ section.settings.company_name | default: shop.name }}. {{ 'sections.footer.rights' | t }}</small>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Ragione sociale",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "vat_number",
+      "label": "Partita IVA",
+      "default": ""
+    },
+    {
+      "type": "textarea",
+      "id": "company_details",
+      "label": "Dati aziendali (indirizzo, REA, ecc.)",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email",
+      "default": ""
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu",
+      "label": "Menu footer"
+    },
+    {
+      "type": "link_list",
+      "id": "policy_menu",
+      "label": "Menu policy"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer"
+    }
+  ]
+}
+{% endschema %}
+

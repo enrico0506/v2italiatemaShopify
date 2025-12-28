@@ -1,0 +1,63 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <div class="ts-newsletter">
+      <div class="ts-newsletter__copy">
+        <h2 class="ts-section__title">{{ section.settings.heading }}</h2>
+        {% if section.settings.text != blank %}
+          <p class="ts-section__subtitle">{{ section.settings.text }}</p>
+        {% endif %}
+      </div>
+
+      <div class="ts-newsletter__form">
+        {% form 'customer', class: 'ts-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="ts-visually-hidden" for="NewsletterEmail-{{ section.id }}">{{ 'newsletter.label' | t }}</label>
+          <input
+            id="NewsletterEmail-{{ section.id }}"
+            class="ts-input"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            autocapitalize="off"
+            autocomplete="email"
+            placeholder="{{ 'newsletter.placeholder' | t }}"
+            required
+          >
+          <button class="ts-button" type="submit">{{ 'newsletter.submit' | t }}</button>
+
+          {% if form.posted_successfully? %}
+            <p class="ts-form__note" role="status">{{ 'newsletter.success' | t }}</p>
+          {% elsif form.errors %}
+            <p class="ts-form__note ts-form__note--error" role="alert">{{ form.errors | default_errors }}</p>
+          {% endif %}
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Entra nella lista."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Testo",
+      "default": "Drop, restock e codici. Niente spam."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
+

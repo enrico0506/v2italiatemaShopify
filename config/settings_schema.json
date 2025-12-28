@@ -1,0 +1,150 @@
+[
+  {
+    "name": "TrapScuro — Design",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colori"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface (cards/header)",
+        "default": "#1A1A1A"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Testo",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Testo secondario",
+        "default": "#B3B3B3"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accento (rosso scuro)",
+        "default": "#6B0F0F"
+      },
+      {
+        "type": "header",
+        "content": "Tipografia"
+      },
+      {
+        "type": "paragraph",
+        "content": "Default: system font stack (veloce e leggibile). Opzionale: imposta un Google Font (URL CSS) + family per sovrascrivere."
+      },
+      {
+        "type": "text",
+        "id": "font_google_url",
+        "label": "Google Font URL (opzionale)",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "id": "font_google_family",
+        "label": "Google Font family (opzionale)",
+        "default": ""
+      },
+      {
+        "type": "header",
+        "content": "Layout & UI"
+      },
+      {
+        "type": "range",
+        "id": "radius",
+        "label": "Radius",
+        "min": 0,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 8
+      },
+      {
+        "type": "select",
+        "id": "spacing_density",
+        "label": "Densità spaziature",
+        "default": "1",
+        "options": [
+          { "value": "0.9", "label": "Compatto" },
+          { "value": "1", "label": "Bilanciato" },
+          { "value": "1.1", "label": "Aria" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "button_style",
+        "label": "Stile bottoni",
+        "default": "solid",
+        "options": [
+          { "value": "solid", "label": "Solid" },
+          { "value": "outline", "label": "Outline" }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_glow",
+        "label": "Glow/outline su hover",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "TrapScuro — Cart",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Soglia spedizione gratuita (valore in valuta store)",
+        "default": 99
+      },
+      {
+        "type": "collection",
+        "id": "cross_sell_collection",
+        "label": "Cross-sell collection (cart)",
+        "info": "Mostra fino a 4 prodotti (escludendo quelli già nel carrello quando possibile)."
+      }
+    ]
+  },
+  {
+    "name": "TrapScuro — Cookie",
+    "settings": [
+      {
+        "type": "page",
+        "id": "cookie_policy_page",
+        "label": "Pagina Cookie Policy (link nel banner)"
+      }
+    ]
+  },
+  {
+    "name": "TrapScuro — Social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      }
+    ]
+  }
+]
+

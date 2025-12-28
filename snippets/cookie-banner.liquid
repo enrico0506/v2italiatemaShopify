@@ -1,0 +1,56 @@
+<div class="ts-cookie" id="TsCookieBanner" role="region" aria-label="{{ 'cookies.title' | t }}" hidden data-ts-cookie-banner>
+  <div class="ts-container ts-cookie__inner">
+    <div class="ts-cookie__copy">
+      <div class="ts-cookie__title">{{ 'cookies.title' | t }}</div>
+      <div class="ts-cookie__text">
+        {{ 'cookies.text' | t }}
+        {% if settings.cookie_policy_page != blank %}
+          <a class="ts-link" href="{{ settings.cookie_policy_page.url }}">{{ 'cookies.policy_link' | t }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="ts-cookie__actions">
+      <button class="ts-button ts-button--secondary ts-button--sm" type="button" data-ts-cookie-reject>
+        {{ 'cookies.reject' | t }}
+      </button>
+      <button class="ts-button ts-button--secondary ts-button--sm" type="button" data-ts-modal-open="TsCookiePrefs">
+        {{ 'cookies.preferences' | t }}
+      </button>
+      <button class="ts-button ts-button--sm" type="button" data-ts-cookie-accept>
+        {{ 'cookies.accept' | t }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="ts-modal" id="TsCookiePrefs" role="dialog" aria-modal="true" aria-label="{{ 'cookies.preferences' | t }}" hidden data-ts-modal>
+  <div class="ts-modal__overlay" data-ts-modal-close></div>
+  <div class="ts-modal__panel" role="document">
+    <div class="ts-modal__header">
+      <div class="ts-modal__title">{{ 'cookies.preferences' | t }}</div>
+      <button class="ts-icon-button" type="button" data-ts-modal-close aria-label="{{ 'general.accessibility.close' | t }}">
+        {% render 'icon', name: 'close' %}
+      </button>
+    </div>
+    <div class="ts-modal__content">
+      <p class="ts-empty">{{ 'cookies.prefs_note' | t }}</p>
+
+      <div class="ts-cookie-prefs">
+        <label class="ts-check">
+          <span>{{ 'cookies.analytics' | t }}</span>
+          <input type="checkbox" data-ts-cookie-analytics>
+        </label>
+        <label class="ts-check">
+          <span>{{ 'cookies.marketing' | t }}</span>
+          <input type="checkbox" data-ts-cookie-marketing>
+        </label>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <button class="ts-button" type="button" data-ts-cookie-save>{{ 'cookies.save' | t }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,10 @@
+{
+  "sections": {
+    "main": {
+      "type": "legal-cookie",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}
+

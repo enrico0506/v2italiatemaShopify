@@ -1,0 +1,77 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <h1 class="ts-page-title">{{ page.title }}</h1>
+
+    <div class="ts-empty" role="note">
+      <strong>{{ 'legal.disclaimer_title' | t }}</strong><br>
+      {{ 'legal.disclaimer_text' | t }}
+    </div>
+
+    <div class="rte" style="margin-top: 1rem;">
+      <h2>1) Titolare del trattamento</h2>
+      <p><strong>{{ section.settings.company_name | default: shop.name }}</strong></p>
+      {% if section.settings.contact_email != blank %}
+        <p>Contatti: <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a></p>
+      {% endif %}
+
+      <h2>2) Dati raccolti</h2>
+      <p>Raccogliamo dati forniti dall’utente (es. nome, email, indirizzo) e dati tecnici di navigazione (es. IP, device, eventi di acquisto) per finalità di vendita, assistenza e miglioramento del servizio.</p>
+
+      <h2>3) Finalità e base giuridica</h2>
+      <ul>
+        <li>Gestione ordini e adempimenti contrattuali.</li>
+        <li>Assistenza clienti e comunicazioni di servizio.</li>
+        <li>Marketing (solo con consenso, se applicabile).</li>
+        <li>Analisi statistiche (solo con consenso, se applicabile).</li>
+      </ul>
+
+      <h2>4) Destinatari dei dati</h2>
+      <p>I dati possono essere trattati da fornitori tecnici (es. piattaforma e-commerce Shopify, corrieri, pagamenti) in qualità di responsabili/fornitori di servizi.</p>
+
+      <h2>5) Conservazione</h2>
+      <p>I dati vengono conservati per il tempo necessario alle finalità indicate e agli obblighi di legge.</p>
+
+      <h2>6) Diritti dell’interessato</h2>
+      <p>L’utente può esercitare i diritti previsti dalla normativa applicabile (accesso, rettifica, cancellazione, opposizione, portabilità, limitazione) contattando il titolare.</p>
+
+      <h2>7) Aggiornamenti</h2>
+      {% if section.settings.last_updated != blank %}
+        <p>Ultimo aggiornamento: {{ section.settings.last_updated }}</p>
+      {% else %}
+        <p>Ultimo aggiornamento: {{ 'now' | date: '%Y-%m-%d' }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legal — Privacy",
+  "settings": [
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Ragione sociale",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Email contatto",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "last_updated",
+      "label": "Ultimo aggiornamento (testo)",
+      "default": ""
+    }
+  ],
+  "presets": [
+    {
+      "name": "Legal — Privacy"
+    }
+  ]
+}
+{% endschema %}
+

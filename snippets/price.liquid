@@ -1,0 +1,18 @@
+{%- liquid
+  assign item = product | default: nil
+  assign variant = item.selected_or_first_available_variant
+-%}
+
+{%- if item == blank or variant == blank -%}
+  <span class="ts-price">{{ 0 | money }}</span>
+{%- else -%}
+  {%- assign on_sale = false -%}
+  {%- if variant.compare_at_price and variant.compare_at_price > variant.price -%}
+    {%- assign on_sale = true -%}
+  {%- endif -%}
+
+  <span class="ts-price{% if on_sale %} is-sale{% endif %}">
+    <span class="ts-price__current">{{ variant.price | money }}</span>
+    <span class="ts-price__compare"{% unless on_sale %} hidden{% endunless %}>{{ variant.compare_at_price | money }}</span>
+  </span>
+{%- endif -%}

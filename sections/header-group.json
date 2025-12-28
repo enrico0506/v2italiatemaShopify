@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "enable_sticky": true
+      }
+    }
+  },
+  "order": ["header"]
+}
+

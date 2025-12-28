@@ -1,0 +1,141 @@
+{%- liquid
+  assign threshold_amount = settings.free_shipping_threshold | default: 0
+  assign threshold_cents = threshold_amount | times: 100
+  assign show_threshold = false
+  if threshold_cents > 0
+    assign show_threshold = true
+  endif
+-%}
+
+<div
+  class="ts-drawer ts-drawer--right"
+  id="TsCartDrawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'cart.title' | t }}"
+  hidden
+  data-ts-drawer="cart"
+  data-ts-cart-count-value="{{ cart.item_count }}"
+>
+  <div class="ts-drawer__overlay" data-ts-drawer-close></div>
+
+  <div class="ts-drawer__panel" role="document">
+    <div class="ts-drawer__header">
+      <span class="ts-drawer__title">{{ 'cart.title' | t }}</span>
+      <button class="ts-icon-button" type="button" data-ts-drawer-close aria-label="{{ 'general.accessibility.close' | t }}">
+        {% render 'icon', name: 'close' %}
+      </button>
+    </div>
+
+    <div class="ts-drawer__content" data-ts-cart-drawer-content>
+      {% if cart.item_count == 0 %}
+        <p class="ts-empty">{{ 'cart.empty' | t }}</p>
+        <a class="ts-button ts-button--full" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
+      {% else %}
+        {% if show_threshold %}
+          <div class="ts-shipping" aria-live="polite">
+            {% if cart.total_price < threshold_cents %}
+              {% assign diff = threshold_cents | minus: cart.total_price %}
+              {% assign diff_money = diff | money %}
+              <span>{{ 'cart.free_shipping_remaining' | t: amount: diff_money }}</span>
+            {% else %}
+              <span>{{ 'cart.free_shipping_unlocked' | t }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <div class="ts-drawer-cart__items">
+          {% for item in cart.items %}
+            <div class="ts-drawer-cart-item">
+              <a class="ts-drawer-cart-item__media" href="{{ item.url }}">
+                {% if item.image %}
+                  {{
+                    item.image
+                    | image_url: width: 240
+                    | image_tag:
+                      widths: '120, 180, 240',
+                      sizes: '72px',
+                      loading: 'lazy',
+                      class: 'ts-drawer-cart-item__img',
+                      alt: item.image.alt | default: item.product.title
+                  }}
+                {% endif %}
+              </a>
+
+              <div class="ts-drawer-cart-item__info">
+                <div class="ts-drawer-cart-item__title">
+                  <a class="ts-link" href="{{ item.url }}">{{ item.product.title }}</a>
+                </div>
+                {% if item.variant.title != 'Default Title' %}
+                  <div class="ts-drawer-cart-item__variant">{{ item.variant.title }}</div>
+                {% endif %}
+                <div class="ts-drawer-cart-item__meta">
+                  <span class="ts-drawer-cart-item__qty">{{ 'cart.quantity_short' | t: quantity: item.quantity }}</span>
+                  <span class="ts-drawer-cart-item__price">{{ item.final_line_price | money }}</span>
+                </div>
+                <a class="ts-link" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="ts-drawer-cart__summary">
+          <div class="ts-cart__row">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <strong>{{ cart.total_price | money }}</strong>
+          </div>
+
+          <div class="ts-cart__actions">
+            <a class="ts-button ts-button--secondary" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+            <form action="{{ routes.cart_url }}" method="post">
+              <button class="ts-button" type="submit" name="checkout">{{ 'cart.checkout' | t }}</button>
+            </form>
+          </div>
+        </div>
+
+        {% if settings.cross_sell_collection != blank %}
+          {% assign cs_collection = settings.cross_sell_collection %}
+          {% if cs_collection != blank %}
+            <div class="ts-drawer-cart__cross-sell">
+              <h3 class="ts-drawer-cart__cross-title">{{ 'cart.complete_the_drop' | t }}</h3>
+              <div class="ts-grid ts-grid--products">
+                {%- assign rendered = 0 -%}
+                {% for product in cs_collection.products %}
+                  {%- liquid
+                    if rendered >= 2
+                      break
+                    endif
+
+                    assign in_cart = false
+                    for item in cart.items
+                      if item.product_id == product.id
+                        assign in_cart = true
+                      endif
+                    endfor
+                  -%}
+                  {% unless in_cart %}
+                    {% render 'product-card', product: product, show_quick_add: true %}
+                    {%- assign rendered = rendered | plus: 1 -%}
+                  {% endunless %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Cart drawer"
+    }
+  ]
+}
+{% endschema %}
+

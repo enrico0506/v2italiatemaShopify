@@ -1,0 +1,13 @@
+# Repo-only files/folders (keep theme root clean for uploads)
+.git/
+.github/
+.vscode/
+
+# Environment-specific
+config/settings_data.json
+
+# Docs
+README.md
+docs/
+*.md
+

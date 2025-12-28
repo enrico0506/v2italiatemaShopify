@@ -1,0 +1,115 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Vai al contenuto",
+      "open_menu": "Apri menu",
+      "menu": "Menu",
+      "close": "Chiudi",
+      "cart": "Carrello",
+      "account": "Account"
+    },
+    "actions": {
+      "shop_now": "Shop now",
+      "view_all": "Vedi tutti",
+      "back_home": "Torna alla home",
+      "search": "Cerca"
+    },
+    "pagination": {
+      "label": "Paginazione",
+      "previous": "Precedente",
+      "next": "Successivo",
+      "page": "Pagina {{ current }} di {{ total }}"
+    },
+    "meta": {
+      "page": "Pagina {{ page }}"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Aggiungi al carrello",
+      "sold_out": "Esaurito",
+      "in_stock": "Disponibile",
+      "low_stock": "Poche unità",
+      "size_guide": "Guida taglie",
+      "media": "Gallery media"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "Menu principale"
+    },
+    "featured_collection": {
+      "no_collection": "Seleziona una collection per mostrare i prodotti."
+    },
+    "collection_grid": {
+      "collection": "Collection"
+    },
+    "footer": {
+      "follow": "Seguici",
+      "rights": "Tutti i diritti riservati."
+    }
+  },
+  "collections": {
+    "filters": {
+      "title": "Filtri",
+      "apply": "Applica",
+      "clear": "Reset",
+      "from": "Da",
+      "to": "A"
+    },
+    "sorting": {
+      "sort_by": "Ordina per",
+      "sort": "Ordina"
+    }
+  },
+  "cart": {
+    "title": "Carrello",
+    "empty": "Il carrello è vuoto.",
+    "continue_shopping": "Continua lo shopping",
+    "view_cart": "Vai al carrello",
+    "quantity": "Quantità",
+    "quantity_short": "Qtà {{ quantity }}",
+    "remove": "Rimuovi",
+    "subtotal": "Subtotale",
+    "taxes_and_shipping": "Tasse e spedizione calcolate al checkout.",
+    "update": "Aggiorna",
+    "checkout": "Checkout",
+    "free_shipping_remaining": "Aggiungi {{ amount }} per sbloccare la spedizione gratuita.",
+    "free_shipping_unlocked": "Spedizione gratuita sbloccata.",
+    "complete_the_drop": "Completa il drop"
+  },
+  "newsletter": {
+    "label": "Email",
+    "placeholder": "Indirizzo email",
+    "submit": "Iscriviti",
+    "success": "Sei dentro. Controlla la tua inbox."
+  },
+  "templates": {
+    "404": {
+      "title": "Pagina non trovata",
+      "subtext": "Strada sbagliata. Torna al drop."
+    },
+    "search": {
+      "title": "Cerca",
+      "label": "Termine di ricerca",
+      "placeholder": "Cerca prodotti…",
+      "no_results": "Nessun risultato."
+    }
+  },
+  "cookies": {
+    "title": "Cookie",
+    "text": "Usiamo cookie per migliorare l’esperienza. Puoi accettare, rifiutare o gestire le preferenze. ",
+    "policy_link": "Cookie Policy",
+    "accept": "Accetta",
+    "reject": "Rifiuta",
+    "preferences": "Preferenze",
+    "save": "Salva preferenze",
+    "prefs_note": "I cookie tecnici sono sempre attivi. Analytics/marketing sono opzionali.",
+    "analytics": "Cookie analytics",
+    "marketing": "Cookie marketing"
+  },
+  "legal": {
+    "disclaimer_title": "Bozza generata automaticamente",
+    "disclaimer_text": "Testo NON vincolante: far revisionare da un professionista legale prima della pubblicazione."
+  }
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+
+    {% render 'meta-tags' %}
+
+    {% if settings.font_google_url != blank %}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="{{ settings.font_google_url }}" rel="stylesheet">
+    {% endif %}
+
+    {{ 'trapscuro.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      :root{
+        --ts-color-bg: {{ settings.color_background }};
+        --ts-color-surface: {{ settings.color_surface }};
+        --ts-color-text: {{ settings.color_text }};
+        --ts-color-muted: {{ settings.color_muted }};
+        --ts-color-accent: {{ settings.color_accent }};
+        --ts-radius: {{ settings.radius }}px;
+        --ts-space-scale: {{ settings.spacing_density }};
+        --ts-glow: {% if settings.enable_glow %}1{% else %}0{% endif %};
+        --ts-button-style: {{ settings.button_style }};
+        --ts-font-family: {% if settings.font_google_family != blank %}{{ settings.font_google_family | json }}{% else %}system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"{% endif %};
+      }
+    </style>
+
+    {{ content_for_header }}
+  </head>
+
+  <body
+    class="template-{{ template.name | handle }}"
+    data-ts-button-style="{{ settings.button_style }}"
+    data-ts-glow="{% if settings.enable_glow %}true{% else %}false{% endif %}"
+    data-ts-currency="{{ cart.currency.iso_code }}"
+    data-ts-locale="{{ request.locale.iso_code }}"
+    data-ts-cart-url="{{ routes.cart_url }}"
+    data-ts-cart-add-url="{{ routes.cart_add_url }}"
+  >
+    <a class="ts-skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="ts-main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% section 'cart-drawer' %}
+    {% render 'cookie-banner' %}
+
+    <script src="{{ 'trapscuro.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>

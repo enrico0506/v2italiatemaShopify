@@ -1,0 +1,41 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <h1 class="ts-page-title">{{ page.title }}</h1>
+
+    <div class="ts-empty" role="note">
+      <strong>{{ 'legal.disclaimer_title' | t }}</strong><br>
+      {{ 'legal.disclaimer_text' | t }}
+    </div>
+
+    <div class="rte" style="margin-top: 1rem;">
+      <h2>1) Cosa sono i cookie</h2>
+      <p>I cookie sono piccoli file di testo che il sito salva sul dispositivo per migliorare l’esperienza e abilitare alcune funzionalità.</p>
+
+      <h2>2) Tipologie</h2>
+      <ul>
+        <li><strong>Cookie tecnici</strong>: necessari per il funzionamento del sito.</li>
+        <li><strong>Cookie analytics</strong>: misurano performance e utilizzo (solo con consenso, se applicabile).</li>
+        <li><strong>Cookie marketing</strong>: personalizzazione e advertising (solo con consenso, se applicabile).</li>
+      </ul>
+
+      <h2>3) Gestione preferenze</h2>
+      <p>Puoi accettare o rifiutare i cookie opzionali tramite il banner. Puoi anche modificare le preferenze in qualsiasi momento (se il banner è disponibile).</p>
+
+      <h2>4) Terze parti</h2>
+      <p>Alcuni cookie possono essere impostati da servizi terzi integrati (es. analytics, advertising) in base alle configurazioni dello store.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legal — Cookie",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Legal — Cookie"
+    }
+  ]
+}
+{% endschema %}
+

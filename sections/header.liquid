@@ -1,0 +1,128 @@
+<header class="ts-header{% if section.settings.enable_sticky %} is-sticky{% endif %}" data-ts-header>
+  <div class="ts-container ts-header__inner">
+    <div class="ts-header__left">
+      <button class="ts-icon-button ts-header__burger" type="button" aria-controls="TsNavDrawer" aria-expanded="false" data-ts-drawer-open="nav">
+        <span class="ts-visually-hidden">{{ 'general.accessibility.open_menu' | t }}</span>
+        {% render 'icon', name: 'menu' %}
+      </button>
+
+      <a class="ts-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {% if section.settings.logo != blank %}
+          {{
+            section.settings.logo
+            | image_url: width: section.settings.logo_width
+            | image_tag:
+              widths: '80, 120, 160, 200, 240, 320',
+              class: 'ts-logo__image',
+              alt: section.settings.logo.alt | default: shop.name
+          }}
+        {% else %}
+          <span class="ts-logo__text">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+    </div>
+
+    <nav class="ts-nav" aria-label="{{ 'sections.header.menu' | t }}">
+      {% if section.settings.menu != blank %}
+        <ul class="ts-nav__list" role="list">
+          {% for link in section.settings.menu.links %}
+            <li class="ts-nav__item">
+              <a class="ts-nav__link{% if link.active %} is-active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </nav>
+
+    <div class="ts-header__actions">
+      {% if section.settings.show_account %}
+        <a class="ts-icon-button" href="{{ routes.account_url }}" aria-label="{{ 'general.accessibility.account' | t }}">
+          {% render 'icon', name: 'account' %}
+        </a>
+      {% endif %}
+
+      {% if section.settings.show_cart %}
+        <button class="ts-icon-button ts-cart-button" type="button" aria-controls="TsCartDrawer" aria-expanded="false" data-ts-drawer-open="cart">
+          <span class="ts-visually-hidden">{{ 'general.accessibility.cart' | t }}</span>
+          {% render 'icon', name: 'cart' %}
+          <span class="ts-cart-count" data-ts-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ts-drawer" id="TsNavDrawer" role="dialog" aria-modal="true" aria-label="{{ 'general.accessibility.menu' | t }}" hidden data-ts-drawer="nav">
+    <div class="ts-drawer__overlay" data-ts-drawer-close></div>
+    <div class="ts-drawer__panel" role="document">
+      <div class="ts-drawer__header">
+        <span class="ts-drawer__title">{{ 'general.accessibility.menu' | t }}</span>
+        <button class="ts-icon-button" type="button" data-ts-drawer-close aria-label="{{ 'general.accessibility.close' | t }}">
+          {% render 'icon', name: 'close' %}
+        </button>
+      </div>
+      <div class="ts-drawer__content">
+        {% if section.settings.menu != blank %}
+          <ul class="ts-drawer__nav" role="list">
+            {% for link in section.settings.menu.links %}
+              <li class="ts-drawer__nav-item">
+                <a class="ts-drawer__nav-link" href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Larghezza logo",
+      "min": 80,
+      "max": 240,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Header sticky",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Mostra icona account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Mostra icona carrello",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,7 @@
+# Shopify environment-specific
+config/settings_data.json
+
+# OS / editor
+.DS_Store
+.vscode/
+

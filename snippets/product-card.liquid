@@ -1,0 +1,53 @@
+{%- liquid
+  assign card_product = product
+  assign show_quick_add = show_quick_add | default: false
+-%}
+
+{%- if card_product == blank -%}
+  {%- break -%}
+{%- endif -%}
+
+{%- assign card_variant = card_product.selected_or_first_available_variant -%}
+
+<article class="ts-card">
+  <a class="ts-card__media" href="{{ card_product.url }}">
+    {% if card_product.featured_media %}
+      {{
+        card_product.featured_media
+        | image_url: width: 900
+        | image_tag:
+          widths: '280, 360, 420, 540, 720, 900',
+          sizes: '(min-width: 990px) 25vw, 50vw',
+          loading: 'lazy',
+          class: 'ts-card__img',
+          alt: card_product.featured_media.alt | default: card_product.title
+      }}
+    {% else %}
+      <div class="ts-card__img ts-card__img--placeholder"></div>
+    {% endif %}
+
+    {% unless card_product.available %}
+      <span class="ts-badge ts-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+    {% endunless %}
+  </a>
+
+  <div class="ts-card__body">
+    <h3 class="ts-card__title">
+      <a href="{{ card_product.url }}" class="ts-card__title-link">{{ card_product.title }}</a>
+    </h3>
+
+    <div class="ts-card__price">
+      {% render 'price', product: card_product %}
+    </div>
+
+    {% if show_quick_add and card_product.available and card_product.has_only_default_variant %}
+      <form method="post" action="{{ routes.cart_add_url }}" class="ts-card__quickadd" data-ts-add-to-cart-form>
+        <input type="hidden" name="id" value="{{ card_variant.id }}">
+        <button class="ts-button ts-button--sm" type="submit">
+          {{ 'products.product.add_to_cart' | t }}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+</article>
+

@@ -1,0 +1,70 @@
+{%- liquid
+  assign collection = section.settings.collection
+  assign limit = section.settings.products_to_show | default: 8
+-%}
+
+<section class="ts-section">
+  <div class="ts-container">
+    <div class="ts-section__head">
+      <h2 class="ts-section__title">{{ section.settings.heading }}</h2>
+      {% if collection != blank and section.settings.show_view_all %}
+        <a class="ts-link" href="{{ collection.url }}">{{ 'general.actions.view_all' | t }}</a>
+      {% endif %}
+    </div>
+
+    {% if collection == blank %}
+      <div class="ts-empty">{{ 'sections.featured_collection.no_collection' | t }}</div>
+    {% else %}
+      <div class="ts-grid ts-grid--products">
+        {% for product in collection.products limit: limit %}
+          {% render 'product-card', product: product, show_quick_add: section.settings.enable_quick_add %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Featured drop"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Prodotti da mostrare",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Quick add (solo prodotti 1 variante)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostra 'View all'",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection"
+    }
+  ]
+}
+{% endschema %}

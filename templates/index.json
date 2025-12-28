@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "hero": {
+      "type": "trap-hero",
+      "settings": {
+        "badge": "DROP LIMITED",
+        "heading": "TRAP SCURO. MINIMAL. IMPATTANTE.",
+        "subheading": "Felpe e tee per chi non chiede permesso. High contrast. CTA nette.",
+        "primary_label": "Shop now"
+      }
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Featured drop",
+        "products_to_show": 8,
+        "enable_quick_add": true,
+        "show_view_all": true
+      }
+    },
+    "collections": {
+      "type": "collection-grid",
+      "blocks": {
+        "c1": { "type": "collection", "settings": {} },
+        "c2": { "type": "collection", "settings": {} },
+        "c3": { "type": "collection", "settings": {} }
+      },
+      "block_order": ["c1", "c2", "c3"],
+      "settings": {
+        "heading": "Collections",
+        "subheading": "Felpe. Tee. Accessori. Tutto in modalità scuro."
+      }
+    },
+    "drop": {
+      "type": "drop-banner",
+      "settings": {
+        "badge": "LIMITED",
+        "heading": "Drop in arrivo. Non dormire.",
+        "text": "Quantità limitate. Quando finisce, finisce.",
+        "button_label": "Scopri il drop"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Entra nella lista.",
+        "text": "Drop, restock e codici. Niente spam."
+      }
+    }
+  },
+  "order": ["hero", "featured", "collections", "drop", "newsletter"]
+}
+

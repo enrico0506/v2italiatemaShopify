@@ -1,0 +1,115 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "open_menu": "Open menu",
+      "menu": "Menu",
+      "close": "Close",
+      "cart": "Cart",
+      "account": "Account"
+    },
+    "actions": {
+      "shop_now": "Shop now",
+      "view_all": "View all",
+      "back_home": "Back home",
+      "search": "Search"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {{ current }} of {{ total }}"
+    },
+    "meta": {
+      "page": "Page {{ page }}"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "in_stock": "In stock",
+      "low_stock": "Low stock",
+      "size_guide": "Size guide",
+      "media": "Media gallery"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "Main menu"
+    },
+    "featured_collection": {
+      "no_collection": "Select a collection to show products."
+    },
+    "collection_grid": {
+      "collection": "Collection"
+    },
+    "footer": {
+      "follow": "Follow",
+      "rights": "All rights reserved."
+    }
+  },
+  "collections": {
+    "filters": {
+      "title": "Filters",
+      "apply": "Apply",
+      "clear": "Clear",
+      "from": "From",
+      "to": "To"
+    },
+    "sorting": {
+      "sort_by": "Sort by",
+      "sort": "Sort"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "continue_shopping": "Continue shopping",
+    "view_cart": "View cart",
+    "quantity": "Quantity",
+    "quantity_short": "Qty {{ quantity }}",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "taxes_and_shipping": "Taxes and shipping calculated at checkout.",
+    "update": "Update cart",
+    "checkout": "Checkout",
+    "free_shipping_remaining": "Add {{ amount }} to unlock free shipping.",
+    "free_shipping_unlocked": "Free shipping unlocked.",
+    "complete_the_drop": "Complete the drop"
+  },
+  "newsletter": {
+    "label": "Email",
+    "placeholder": "Email address",
+    "submit": "Subscribe",
+    "success": "You're in. Check your inbox."
+  },
+  "templates": {
+    "404": {
+      "title": "Page not found",
+      "subtext": "Wrong turn. Go back to the drop."
+    },
+    "search": {
+      "title": "Search",
+      "label": "Search term",
+      "placeholder": "Search products…",
+      "no_results": "No results."
+    }
+  },
+  "cookies": {
+    "title": "Cookies",
+    "text": "We use cookies to improve the experience. You can accept, refuse, or manage preferences. ",
+    "policy_link": "Cookie policy",
+    "accept": "Accept",
+    "reject": "Reject",
+    "preferences": "Preferences",
+    "save": "Save preferences",
+    "prefs_note": "Essential cookies are always on. Analytics/marketing are optional.",
+    "analytics": "Analytics cookies",
+    "marketing": "Marketing cookies"
+  },
+  "legal": {
+    "disclaimer_title": "Auto-generated draft",
+    "disclaimer_text": "This is a non-binding draft: have it reviewed by a legal professional before publishing."
+  }
+}

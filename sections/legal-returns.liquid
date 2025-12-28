@@ -1,0 +1,44 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <h1 class="ts-page-title">{{ page.title }}</h1>
+
+    <div class="ts-empty" role="note">
+      <strong>{{ 'legal.disclaimer_title' | t }}</strong><br>
+      {{ 'legal.disclaimer_text' | t }}
+    </div>
+
+    <div class="rte" style="margin-top: 1rem;">
+      <h2>1) Resi e diritto di recesso (bozza)</h2>
+      <p>Il cliente può richiedere il reso entro un termine indicato dal venditore, a partire dalla consegna, salvo eccezioni previste dalla legge.</p>
+
+      <h2>2) Condizioni</h2>
+      <ul>
+        <li>Prodotti non usati, non lavati, con cartellini e confezione (se presenti).</li>
+        <li>Richiesta di reso con numero ordine e motivazione.</li>
+      </ul>
+
+      <h2>3) Procedura</h2>
+      <ol>
+        <li>Contatta l’assistenza per autorizzazione e istruzioni.</li>
+        <li>Spedisci il pacco seguendo le indicazioni ricevute.</li>
+        <li>Dopo verifica, verrà emesso rimborso o cambio secondo policy.</li>
+      </ol>
+
+      <h2>4) Costi</h2>
+      <p>Indicare se i costi di spedizione del reso sono a carico del cliente o del venditore e in quali casi.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legal — Returns",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Legal — Returns"
+    }
+  ]
+}
+{% endschema %}
+

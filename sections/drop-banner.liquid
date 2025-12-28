@@ -1,0 +1,61 @@
+<section class="ts-section">
+  <div class="ts-container">
+    <div class="ts-banner">
+      <div class="ts-banner__content">
+        {% if section.settings.badge != blank %}
+          <div class="ts-badge ts-badge--accent">{{ section.settings.badge }}</div>
+        {% endif %}
+        <h2 class="ts-banner__title">{{ section.settings.heading }}</h2>
+        {% if section.settings.text != blank %}
+          <p class="ts-banner__text">{{ section.settings.text }}</p>
+        {% endif %}
+      </div>
+      {% if section.settings.link != blank %}
+        <a class="ts-button" href="{{ section.settings.link }}">{{ section.settings.button_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Drop banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "LIMITED"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Drop in arrivo. Non dormire."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Testo",
+      "default": "Quantità limitate. Quando finisce, finisce."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Bottone (testo)",
+      "default": "Scopri il drop"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Bottone (link)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Drop banner"
+    }
+  ]
+}
+{% endschema %}
+

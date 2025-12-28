@@ -1,0 +1,140 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 16
+-%}
+
+<section class="ts-section">
+  <div class="ts-container">
+    <header class="ts-collection-header">
+      <h1 class="ts-collection-header__title">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="ts-collection-header__desc rte">{{ collection.description }}</div>
+      {% endif %}
+    </header>
+
+    <form class="ts-toolbar" method="get" action="{{ collection.url }}">
+      <details class="ts-filters" {% if section.settings.filters_open %}open{% endif %}>
+        <summary class="ts-filters__summary">
+          <span>{{ 'collections.filters.title' | t }}</span>
+          <span class="ts-filters__count">
+            {%- assign active_count = 0 -%}
+            {%- for filter in collection.filters -%}
+              {%- assign active_count = active_count | plus: filter.active_values.size -%}
+            {%- endfor -%}
+            {% if active_count > 0 %}({{ active_count }}){% endif %}
+          </span>
+        </summary>
+
+        <div class="ts-filters__panel">
+          {% for filter in collection.filters %}
+            <div class="ts-filter">
+              <div class="ts-filter__title">{{ filter.label }}</div>
+
+              {% case filter.type %}
+                {% when 'list' %}
+                  <ul class="ts-filter__list" role="list">
+                    {% for value in filter.values %}
+                      <li>
+                        <label class="ts-check">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}checked{% endif %}
+                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                          >
+                          <span>{{ value.label }}</span>
+                          <span class="ts-check__count">{{ value.count }}</span>
+                        </label>
+                      </li>
+                    {% endfor %}
+                  </ul>
+
+                {% when 'price_range' %}
+                  <div class="ts-price-range">
+                    <label class="ts-field">
+                      <span class="ts-field__label">{{ 'collections.filters.from' | t }}</span>
+                      <input class="ts-input" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '.' }}" inputmode="decimal">
+                    </label>
+                    <label class="ts-field">
+                      <span class="ts-field__label">{{ 'collections.filters.to' | t }}</span>
+                      <input class="ts-input" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '.' }}" inputmode="decimal">
+                    </label>
+                  </div>
+              {% endcase %}
+            </div>
+          {% endfor %}
+
+          <div class="ts-filters__actions">
+            <button class="ts-button" type="submit">{{ 'collections.filters.apply' | t }}</button>
+            <a class="ts-link" href="{{ collection.url }}">{{ 'collections.filters.clear' | t }}</a>
+          </div>
+        </div>
+      </details>
+
+      <div class="ts-sort">
+        <label class="ts-visually-hidden" for="SortBy-{{ section.id }}">{{ 'collections.sorting.sort_by' | t }}</label>
+        <select class="ts-select" id="SortBy-{{ section.id }}" name="sort_by">
+          {% for option in collection.sort_options %}
+            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+          {% endfor %}
+        </select>
+        <button class="ts-button ts-button--sm" type="submit">{{ 'collections.sorting.sort' | t }}</button>
+      </div>
+    </form>
+
+    {% paginate collection.products by products_per_page %}
+      <div class="ts-grid ts-grid--products">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product, show_quick_add: section.settings.enable_quick_add %}
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        <nav class="ts-pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+          {% if paginate.previous %}
+            <a class="ts-link" href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>
+          {% endif %}
+          <span class="ts-pagination__page">{{ 'general.pagination.page' | t: current: paginate.current_page, total: paginate.pages }}</span>
+          {% if paginate.next %}
+            <a class="ts-link" href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>
+          {% endif %}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Prodotti per pagina",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Quick add (solo prodotti 1 variante)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "filters_open",
+      "label": "Apri filtri di default",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main collection"
+    }
+  ]
+}
+{% endschema %}
+

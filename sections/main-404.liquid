@@ -1,0 +1,20 @@
+<section class="ts-section">
+  <div class="ts-container ts-center">
+    <h1 class="ts-page-title">{{ 'templates.404.title' | t }}</h1>
+    <p class="ts-empty">{{ 'templates.404.subtext' | t }}</p>
+    <a class="ts-button" href="{{ routes.root_url }}">{{ 'general.actions.back_home' | t }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [],
+  "presets": [
+    {
+      "name": "404"
+    }
+  ]
+}
+{% endschema %}
+

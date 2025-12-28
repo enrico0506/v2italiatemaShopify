@@ -1,0 +1,264 @@
+{%- liquid
+  assign product_form_id = 'ts-product-form-' | append: section.id
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<section class="ts-section">
+  <div class="ts-container ts-product" data-ts-product data-low-stock-threshold="{{ section.settings.low_stock_threshold }}">
+    <div class="ts-product__grid">
+      <div class="ts-product__media">
+        {% if product.media.size > 0 %}
+          <div class="ts-product-gallery" aria-label="{{ product.title }}">
+            <ul class="ts-product-gallery__main" role="list">
+              {% for media in product.media %}
+                {% if media.media_type == 'image' %}
+                  {%- liquid
+                    assign loading_attr = 'lazy'
+                    if forloop.first
+                      assign loading_attr = 'eager'
+                    endif
+                  -%}
+                  <li class="ts-product-gallery__slide" id="ts-media-{{ media.id }}">
+                    {{
+                      media
+                      | image_url: width: 1600
+                      | image_tag:
+                        widths: '700, 900, 1100, 1600',
+                        sizes: '(min-width: 990px) 50vw, 100vw',
+                        loading: loading_attr,
+                        class: 'ts-product-gallery__img',
+                        alt: media.alt | default: product.title
+                    }}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+
+            <div class="ts-product-gallery__thumbs" aria-label="{{ 'products.product.media' | t }}">
+              {% for media in product.media %}
+                {% if media.media_type == 'image' %}
+                  <a class="ts-thumb" href="#ts-media-{{ media.id }}">
+                    {{
+                      media
+                      | image_url: width: 200
+                      | image_tag:
+                        widths: '120, 160, 200',
+                        sizes: '80px',
+                        loading: 'lazy',
+                        class: 'ts-thumb__img',
+                        alt: media.alt | default: product.title
+                    }}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ts-product__info">
+        <div class="ts-product__top">
+          <h1 class="ts-product__title">{{ product.title }}</h1>
+          <div class="ts-product__price" data-ts-product-price>
+            {% render 'price', product: product %}
+          </div>
+
+          <div
+            class="ts-product__badge"
+            data-ts-stock-badge
+            data-label-in-stock="{{ 'products.product.in_stock' | t }}"
+            data-label-low-stock="{{ 'products.product.low_stock' | t }}"
+            data-label-soldout="{{ 'products.product.sold_out' | t }}"
+          >
+            {% if current_variant.available %}
+              {% if current_variant.inventory_management and current_variant.inventory_quantity <= section.settings.low_stock_threshold %}
+                <span class="ts-badge ts-badge--accent">{{ 'products.product.low_stock' | t }}</span>
+              {% else %}
+                <span class="ts-badge">{{ 'products.product.in_stock' | t }}</span>
+              {% endif %}
+            {% else %}
+              <span class="ts-badge ts-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="ts-product__desc">
+          {{ product.description }}
+        </div>
+
+        {% form 'product', product, id: product_form_id, class: 'ts-product-form', data-product-form: '', data-ts-add-to-cart-form: '' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-ts-variant-id>
+
+          {% unless product.has_only_default_variant %}
+            <div class="ts-variants">
+              {% for option in product.options_with_values %}
+                {%- liquid
+                  assign option_name_downcase = option.name | downcase
+                  assign is_color = false
+                  if option_name_downcase contains 'color' or option_name_downcase contains 'colour' or option_name_downcase contains 'colore'
+                    assign is_color = true
+                  endif
+                -%}
+
+                <fieldset class="ts-fieldset" data-ts-option data-option-index="{{ forloop.index0 }}">
+                  <legend class="ts-fieldset__legend">{{ option.name }}</legend>
+
+                  <div class="ts-choice-grid{% if is_color %} is-swatch{% endif %}">
+                    {% for value in option.values %}
+                      {%- liquid
+                        assign input_id = 'ts-option-' | append: section.id | append: '-' | append: option.position | append: '-' | append: forloop.index0
+                        assign checked = false
+                        if option.selected_value == value
+                          assign checked = true
+                        endif
+
+                        assign swatch = value | downcase
+                        case swatch
+                          when 'black', 'nero'
+                            assign swatch_color = '#000000'
+                          when 'white', 'bianco'
+                            assign swatch_color = '#ffffff'
+                          when 'grey', 'gray', 'grigio'
+                            assign swatch_color = '#808080'
+                          when 'red', 'rosso'
+                            assign swatch_color = settings.color_accent
+                          else
+                            assign swatch_color = value
+                        endcase
+                      -%}
+
+                      <label class="ts-choice{% if is_color %} ts-choice--swatch{% endif %}">
+                        <input
+                          class="ts-choice__input"
+                          type="radio"
+                          name="options[{{ option.name | escape }}]"
+                          value="{{ value | escape }}"
+                          {% if checked %}checked{% endif %}
+                          aria-label="{{ option.name }}: {{ value }}"
+                        >
+
+                        {% if is_color %}
+                          <span class="ts-swatch" style="--ts-swatch: {{ swatch_color }}"></span>
+                          <span class="ts-choice__label">{{ value }}</span>
+                        {% else %}
+                          <span class="ts-chip">{{ value }}</span>
+                        {% endif %}
+                      </label>
+                    {% endfor %}
+                  </div>
+                </fieldset>
+              {% endfor %}
+            </div>
+          {% endunless %}
+
+          <div class="ts-product__actions">
+            <button
+              class="ts-button ts-button--full"
+              type="submit"
+              name="add"
+              {% unless current_variant.available %}disabled{% endunless %}
+              data-ts-add-to-cart
+              data-label-add="{{ 'products.product.add_to_cart' | t }}"
+              data-label-soldout="{{ 'products.product.sold_out' | t }}"
+            >
+              {% if current_variant.available %}
+                {{ 'products.product.add_to_cart' | t }}
+              {% else %}
+                {{ 'products.product.sold_out' | t }}
+              {% endif %}
+            </button>
+
+            {% if section.settings.show_size_guide %}
+              <button class="ts-button ts-button--secondary ts-button--full" type="button" data-ts-modal-open="TsSizeGuide-{{ section.id }}">
+                {{ 'products.product.size_guide' | t }}
+              </button>
+            {% endif %}
+          </div>
+        {% endform %}
+
+        <script type="application/json" data-ts-variants>
+          {{ product.variants | json }}
+        </script>
+
+        {% if section.settings.show_size_guide %}
+          <div class="ts-modal" id="TsSizeGuide-{{ section.id }}" role="dialog" aria-modal="true" aria-label="{{ 'products.product.size_guide' | t }}" hidden data-ts-modal>
+            <div class="ts-modal__overlay" data-ts-modal-close></div>
+            <div class="ts-modal__panel" role="document">
+              <div class="ts-modal__header">
+                <div class="ts-modal__title">{{ 'products.product.size_guide' | t }}</div>
+                <button class="ts-icon-button" type="button" data-ts-modal-close aria-label="{{ 'general.accessibility.close' | t }}">
+                  {% render 'icon', name: 'close' %}
+                </button>
+              </div>
+              <div class="ts-modal__content rte">
+                {% if product.metafields.custom.size_guide != blank %}
+                  {{ product.metafields.custom.size_guide | metafield_tag }}
+                {% elsif section.settings.size_guide_page != blank %}
+                  {{ section.settings.size_guide_page.content }}
+                {% else %}
+                  {{ section.settings.size_guide_fallback }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": {{ product.title | json }},
+        "url": {{ canonical_url | json }},
+        "description": {{ product.description | strip_html | json }},
+        "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+        "image": [{% if product.featured_image %}{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}{% endif %}],
+        "sku": {{ current_variant.sku | default: product.id | json }},
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "price": {{ current_variant.price | divided_by: 100.0 | json }},
+          "availability": "https://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "url": {{ canonical_url | json }}
+        }
+      }
+    </script>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": [
+    {
+      "type": "number",
+      "id": "low_stock_threshold",
+      "label": "Soglia badge 'Low stock'",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_size_guide",
+      "label": "Mostra Size guide",
+      "default": true
+    },
+    {
+      "type": "page",
+      "id": "size_guide_page",
+      "label": "Pagina Size guide (opzionale)"
+    },
+    {
+      "type": "richtext",
+      "id": "size_guide_fallback",
+      "label": "Fallback Size guide (rich text)",
+      "default": "<p><strong>Size & Fit</strong></p><p>Vestibilità regular. Se sei tra due taglie, scegli la più grande per un fit più loose.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Main product"
+    }
+  ]
+}
+{% endschema %}
