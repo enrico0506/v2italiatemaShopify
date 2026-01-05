@@ -1,5 +1,8 @@
 {%- liquid
   assign collection = section.settings.collection
+  if collection == blank
+    assign collection = collections['all']
+  endif
   assign limit = section.settings.products_to_show | default: 8
 -%}
 

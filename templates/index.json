@@ -4,15 +4,15 @@
       "type": "trap-hero",
       "settings": {
         "badge": "DROP LIMITED",
-        "heading": "TRAP SCURO. MINIMAL. IMPATTANTE.",
-        "subheading": "Felpe e tee per chi non chiede permesso. High contrast. CTA nette.",
-        "primary_label": "Shop now"
+        "heading": "V2 ITALIA — Streetwear essenziale.",
+        "subheading": "Felpe e tee minimal, scure, impattanti. Drop limitati.",
+        "primary_label": "Acquista ora"
       }
     },
     "featured": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Featured drop",
+        "heading": "Drop in evidenza",
         "products_to_show": 8,
         "enable_quick_add": true,
         "show_view_all": true
@@ -50,4 +50,3 @@
   },
   "order": ["hero", "featured", "collections", "drop", "newsletter"]
 }
-
